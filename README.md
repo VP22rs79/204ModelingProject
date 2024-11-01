@@ -7,4 +7,5 @@ A song's score is derived through the differences in BPM, genre and key. The sco
 The user is presented with 2 approaches to derivng the set list.<br/>
 <br/>
     Option 1 (test compatibility): The user selects a song from the library and the program will return the songs that are nearest in compatibility for them to  choose from while mixing.<br/> 
+    <br/>
     Option 2 (create a set list): The program intakes a beginning song and an ending song for their setlist. The user also denotes the total number of tracks they would want in the generated set list. The program then returns a list of songs that gradually progress through the most compatible tracks in order to smoothly transition from the first to final track. 
