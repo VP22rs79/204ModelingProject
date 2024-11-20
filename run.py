@@ -1,13 +1,24 @@
-
 from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions, likelihood
+import json
 
 # These two lines make sure a faster SAT solver is used.
 from nnf import config
+
+
+class Song:
+    def __init__(Name, Artist, BPM, Key, Genre):
+        self.name = Name
+        self.artist = Artist
+        self.bpm = Key
+        self.genre = Genre
+
+
 config.sat_backend = "kissat"
 
 # Encoding that will store all of your constraints
 E = Encoding()
+
 
 # To create propositions, create classes for them first, annotated with "@proposition" and the Encoding
 @proposition(E)
@@ -35,9 +46,10 @@ class FancyPropositions:
     def _prop_name(self):
         return f"A.{self.data}"
 
+
 # Call your variables whatever you want
 a = BasicPropositions("a")
-b = BasicPropositions("b")   
+b = BasicPropositions("b")
 c = BasicPropositions("c")
 d = BasicPropositions("d")
 e = BasicPropositions("e")
@@ -53,7 +65,7 @@ z = FancyPropositions("z")
 #  This restriction is fairly minimal, and if there is any concern, reach out to the teaching staff to clarify
 #  what the expectations are.
 def example_theory():
-    # Add custom constraints by creating formulas with the variables you created. 
+    # Add custom constraints by creating formulas with the variables you created.
     E.add_constraint((a | b) & ~x)
     # Implication
     E.add_constraint(y >> z)
@@ -64,6 +76,12 @@ def example_theory():
     constraint.add_exactly_one(E, a, b, c)
 
     return E
+
+
+def loadSongs():
+    with open("songlib.json", "r") as file:
+        songs = json.load(file)
+        return songs
 
 
 if __name__ == "__main__":
@@ -78,7 +96,7 @@ if __name__ == "__main__":
     print("   Solution: %s" % T.solve())
 
     print("\nVariable likelihoods:")
-    for v,vn in zip([a,b,c,x,y,z], 'abcxyz'):
+    for v, vn in zip([a, b, c, x, y, z], "abcxyz"):
         # Ensure that you only send these functions NNF formulas
         # Literals are compiled to NNF here
         print(" %s: %.2f" % (vn, likelihood(T, v)))

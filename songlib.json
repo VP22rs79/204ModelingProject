@@ -1,0 +1,31 @@
+[
+    {
+        "Name": "Keys to the city",
+        "Artist": "Bladee",
+        "BPM": "81",
+        "Key": "9B",
+        "Genre": "Alternative"
+    },
+    {
+        "Name": "Heavy On My Heart",
+        "Artist": "Lucki",
+        "BPM": "128",
+        "Key": "11A",
+        "Genre": "Trap"
+    },
+    {
+        "Name": "Between the Bars",
+        "Artist": "Elliott Smith",
+        "BPM": "135",
+        "Key": "6A",
+        "Genre": "Folk"
+    },
+    {
+        "Name": "Plastic Love",
+        "Artist": "Mariya Takeuchi",
+        "BPM": "104",
+        "Key": "7A",
+        "Genre": "Pop"
+    },
+    {}
+]
