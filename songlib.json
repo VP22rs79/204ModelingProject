@@ -27,5 +27,68 @@
         "Key": "7A",
         "Genre": "Pop"
     },
+    {
+        "Name": "60 Miles",
+        "Artist": "Lil RT",
+        "BPM": "166",
+        "Key": "4B",
+        "Genre": "Hip-Hop"
+    },
+    {
+        "Name": "Gundam",
+        "Artist": "Marjorie -W.C. Sinclair",
+        "BPM": "127",
+        "Key": "3B",
+        "Genre": "Dancehall"
+    },
+    {
+        "Name": "Oblivion",
+        "Artist": "Grimes",
+        "BPM": "156",
+        "Key": "10B",
+        "Genre": "Dance Pop"
+    },
+    {
+        "Name": "Again",
+        "Artist": "Snow Strippers",
+        "BPM": "154",
+        "Key": "11A",
+        "Genre": "Techno"
+    },
+    {
+        "Name": "Don't Look Back In Anger",
+        "Artist": "Oasis",
+        "BPM": "164",
+        "Key": "8B",
+        "Genre": "Classic Rock"
+    },
+    {
+        "Name": "Gimme! Gimme! Gimme! (A Man After Midnight)",
+        "Artist": "ABBA",
+        "BPM": "120",
+        "Key": "6B",
+        "Genre": "Dance Pop"
+    },
+    {
+        "Name": "Gold",
+        "Artist": "2hollis",
+        "BPM": "155",
+        "Key": "4A",
+        "Genre": "Techno"
+    },
+    {
+        "Name": "Hey",
+        "Artist": "Pixies",
+        "BPM": "100",
+        "Key": "9B",
+        "Genre": "Alternative Rock"
+    },
+    {
+        "Name": "Lazarus (feat. Boj)",
+        "Artist": "Dave",
+        "BPM": "104",
+        "Key": "9B",
+        "Genre": "Afrobeats"
+    },
     {}
 ]
