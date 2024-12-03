@@ -59,8 +59,6 @@ x = FancyPropositions("x")
 y = FancyPropositions("y")
 z = FancyPropositions("z")
 
-choice = 0
-
 
 # Build an example full theory for your setting and return it.
 #
