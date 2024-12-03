@@ -5,18 +5,52 @@ import json
 # These two lines make sure a faster SAT solver is used.
 from nnf import config
 
-genres = ["House", "Hip-Hop", "Trap", "Jungle", 
-          "Classical", "Dubstep", "Folk", "Classic Rock", 
-          "Alternative Rock", "Dancehall", "Afrobeats", "Country",
-          "Techno", "Dance Pop", "Pop Rock"]
+genres = [
+    "House",
+    "Hip-Hop",
+    "Trap",
+    "Jungle",
+    "Classical",
+    "Dubstep",
+    "Folk",
+    "Classic Rock",
+    "Alternative Rock",
+    "Dancehall",
+    "Afrobeats",
+    "Country",
+    "Techno",
+    "Dance Pop",
+    "Pop Rock",
+]
 
-keys = ["Cmaj", "Gmaj", "Dmaj", "Amaj",
-        "Emaj", "Bmaj", "Gbmaj", "Dbmaj",
-        "Abmaj", "Ebmaj", "Bbmaj", "Fmaj",
-        "Amin", "Emin", "Bmin", "Gbmin",
-        "Dbmin", "Abmin", "Ebmin", "Bbmin",
-        "Fmin", "Cmin", "Gmin", "Dmin"
-        ]
+keys = [
+    "Cmaj",
+    "Gmaj",
+    "Dmaj",
+    "Amaj",
+    "Emaj",
+    "Bmaj",
+    "Gbmaj",
+    "Dbmaj",
+    "Abmaj",
+    "Ebmaj",
+    "Bbmaj",
+    "Fmaj",
+    "Amin",
+    "Emin",
+    "Bmin",
+    "Gbmin",
+    "Dbmin",
+    "Abmin",
+    "Ebmin",
+    "Bbmin",
+    "Fmin",
+    "Cmin",
+    "Gmin",
+    "Dmin",
+]
+
+
 class Song:
     def __init__(self, Name, Artist, BPM, Key, Genre):
         self.name = Name
@@ -25,8 +59,8 @@ class Song:
         self.key = Key
         self.genre = Genre
 
-       # for genre in genres:
-           # if g
+    # for genre in genres:
+    # if g
 
 
 config.sat_backend = "kissat"
@@ -63,10 +97,10 @@ class FancyPropositions:
 
 
 # Call your variables whatever you want
-G = BasicPropositions("G") #represents the genre
-K = BasicPropositions("K") #represents the key 
-B = BasicPropositions("B") #represents the BPM 
-song = BasicPropositions("song") 
+G = BasicPropositions("G")  # represents the genre
+K = BasicPropositions("K")  # represents the key
+B = BasicPropositions("B")  # represents the BPM
+song = BasicPropositions("song")
 Cmaj = BasicPropositions("Cmaj")
 Gmaj = BasicPropositions("Gmaj")
 Amaj = BasicPropositions("Amaj")
@@ -107,12 +141,13 @@ dubstep = BasicPropositions("dubstep")
 folk = BasicPropositions("folk")
 
 
-
-#hi remy
-#hello! -remy
+# hi remy
+# hello! -remy
 
 # At least one of these will be true
-Q = FancyPropositions("Q") #true if a song y can come after song x according to key, BPM, genre 
+Q = FancyPropositions(
+    "Q"
+)  # true if a song y can come after song x according to key, BPM, genre
 oneGenre = FancyPropositions("oneGenre")
 z = FancyPropositions("z")
 
@@ -124,97 +159,1007 @@ z = FancyPropositions("z")
 #  what the expectations are.
 def example_theory():
     # if a song's genre is x and it only has one genre, then it cannot be any other genre
-    E.add_constraint((house[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (house[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((hipHop[song] & oneGenre[song]).negate() | (house[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (hipHop[song] & oneGenre[song]).negate()
+        | (
+            house[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((trap[song] & oneGenre[song]).negate() | (hipHop[song] | house[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (trap[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | house[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((jungle[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | house[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (jungle[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | house[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((classical[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | house[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (classical[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | house[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((dubstep[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | house[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (dubstep[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | house[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((folk[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | house[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (folk[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | house[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((classicRock[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | house[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (classicRock[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | house[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((altRock[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | house[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (altRock[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | house[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((dancehall[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | house[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (dancehall[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | house[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((afrobeats[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | house[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (afrobeats[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | house[song]
+            | country[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((country[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | house[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (country[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | house[song]
+            | techno[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((techno[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | house[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(
+        (techno[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | house[song]
+            | dancePop[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((dancePop[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | house[song] | popRock[song]).negate())
+    E.add_constraint(
+        (dancePop[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | house[song]
+            | popRock[song]
+        ).negate()
+    )
 
-    E.add_constraint((popRock[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | house[song] | dancePop[song]).negate())
+    E.add_constraint(
+        (popRock[song] & oneGenre[song]).negate()
+        | (
+            hipHop[song]
+            | trap[song]
+            | jungle[song]
+            | classical[song]
+            | dubstep[song]
+            | folk[song]
+            | classicRock[song]
+            | altRock[song]
+            | dancehall[song]
+            | afrobeats[song]
+            | country[song]
+            | techno[song]
+            | house[song]
+            | dancePop[song]
+        ).negate()
+    )
 
+    # if a song has two genres x and y, then it cannot be a combination of any other genre with or without x and y.
 
-    #if a song has two genres x and y, then it cannot be a combination of any other genre with or without x and y.
-    
-    E.add_constraint((house[song] &  ))
-    
+    # E.add_constraint((house[song] &  ))
 
+    # if a song has a key x, then it cannot be any other key.
 
+    E.add_constraint(
+        (Cmaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    #if a song has a key x, then it cannot be any other key.
+    E.add_constraint(
+        (Gmaj[song]).negate()
+        | (
+            Cmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Cmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Dmaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Cmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Gmaj[song]).negate() | (Cmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Amaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Cmaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Dmaj[song]).negate() | (Gmaj[song] | Cmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Emaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Cmaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Amaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Cmaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Bmaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Cmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Emaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Cmaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Gbmaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Cmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Bmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Cmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Dbmaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Cmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Gbmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Cmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Abmaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Cmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Dbmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Cmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Ebmaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Cmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Abmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Cmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Bbmaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Cmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Ebmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Cmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Fmaj[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Cmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Bbmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Cmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Amin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Cmaj[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Fmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Cmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Emin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Cmaj[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Amin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Cmaj[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Bmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Cmaj[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Emin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Cmaj[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Gbmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Cmaj[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Bmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Cmaj[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Dbmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Cmaj[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Gbmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Cmaj[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Abmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Cmaj[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Dbmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Cmaj[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Ebmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Cmaj[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Abmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Cmaj[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Bbmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Cmaj[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Ebmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Cmaj[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Fmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Cmaj[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Bbmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Cmaj[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Cmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmaj[song]
+            | Gmin[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Fmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Cmaj[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
+    E.add_constraint(
+        (Gmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Cmaj[song]
+            | Dmin[song]
+        ).negate()
+    )
 
-    E.add_constraint((Cmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmaj[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Gmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Cmaj[song] | Dmin[song]).negate())
-
-    E.add_constraint((Dmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Cmaj[song]).negate())
-
-
-
-
+    E.add_constraint(
+        (Dmin[song]).negate()
+        | (
+            Gmaj[song]
+            | Dmaj[song]
+            | Amaj[song]
+            | Emaj[song]
+            | Bmaj[song]
+            | Gbmaj[song]
+            | Dbmaj[song]
+            | Abmaj[song]
+            | Ebmaj[song]
+            | Bbmaj[song]
+            | Fmaj[song]
+            | Amin[song]
+            | Emin[song]
+            | Bmin[song]
+            | Gbmin[song]
+            | Dbmin[song]
+            | Abmin[song]
+            | Ebmin[song]
+            | Bbmin[song]
+            | Fmin[song]
+            | Cmin[song]
+            | Gmin[song]
+            | Cmaj[song]
+        ).negate()
+    )
 
     # Implication
     E.add_constraint(y >> z)
@@ -247,12 +1192,23 @@ def loadSongs():
 
 def autoGeneratePlaylist():
     songs = loadSongs()
+    songA = ""
+    songB = ""
     while True:
         songA = input("Enter the name of the first song you want to play:")
         for i in range(len(songs)):
             if songA == songs[i]["Name"]:
                 break
         if songA == songs[i]["Name"]:
+            break
+        else:
+            print("Song not found, retry with another song.")
+    while True:
+        songB = input("Enter the name of the last song you want to be played:")
+        for j in range(len(songs)):
+            if songB == songs[j]["Name"]:
+                break
+        if songB == songs[j]["Name"]:
             break
         else:
             print("Song not found, retry with another song.")
