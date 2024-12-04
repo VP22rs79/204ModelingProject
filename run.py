@@ -139,6 +139,14 @@ jungle = BasicPropositions("jungle")
 classical = BasicPropositions("classical")
 dubstep = BasicPropositions("dubstep")
 folk = BasicPropositions("folk")
+classicRock = BasicPropositions("classicRock")
+altRock = BasicPropositions("altRock")
+dancehall = BasicPropositions("dancehall")
+country = BasicPropositions("country")
+afrobeats = BasicPropositions("afrobeats")
+techno = BasicPropositions("techno")
+dancePop = BasicPropositions("dancePop")
+popRock = BasicPropositions("popRock")
 
 
 # hi remy
