@@ -108,11 +108,10 @@ class FancyPropositions:
 
 
 lt10 = BasicPropositions("lt10")
+key_compat = BasicPropositions("key_compat")
+genre_compat = BasicPropositions("genre_compat")
 # Call your variables whatever you want
-G = BasicPropositions("G")  # represents the genre
-K = BasicPropositions("K")  # represents the key
-B = BasicPropositions("B")  # represents the BPM
-song = BasicPropositions("song")
+
 Cmaj = BasicPropositions("Cmaj")
 Gmaj = BasicPropositions("Gmaj")
 Amaj = BasicPropositions("Amaj")
@@ -145,25 +144,34 @@ Dbmin = BasicPropositions("Dbmin")
 Bbmin = BasicPropositions("Bbmin")
 Fbmin = BasicPropositions("Fbmin")
 house = BasicPropositions("house")
-hipHop = BasicPropositions("hipHop")
+hip_hop = BasicPropositions("hipHop")
 trap = BasicPropositions("trap")
-jungle = BasicPropositions("jungle")
+jungle_dnb = BasicPropositions("jungle_dnb")
 classical = BasicPropositions("classical")
 dubstep = BasicPropositions("dubstep")
 folk = BasicPropositions("folk")
-classicRock = BasicPropositions("classicRock")
-altRock = BasicPropositions("altRock")
+classic_rock = BasicPropositions("classicRock")
+alt_rock = BasicPropositions("altRock")
 dancehall = BasicPropositions("dancehall")
 country = BasicPropositions("country")
 afrobeats = BasicPropositions("afrobeats")
 techno = BasicPropositions("techno")
-dancePop = BasicPropositions("dancePop")
-popRock = BasicPropositions("popRock")
-
+dance_pop = BasicPropositions("dancePop")
+pop_rock = BasicPropositions("popRock")
+list_gens = [house, hip_hop, trap, jungle_dnb]
+list_compats = [
+    [hip_hop, trap, techno, afrobeats, jungle_dnb, dance_pop],
+    [house, trap, jungle_dnb, dancehall, afrobeats, techno],
+    [techno, hip_hop, dubstep, alt_rock, classic_rock, dance_pop],
+    [house, classical, hip_hop, techno, dancehall],
+]
+list_keys = [Cmaj]
+list_key
 
 # hi remy
 # hello! -remy
-
+x = BasicPropositions("x")
+y = BasicPropositions("y")
 # At least one of these will be true
 Q = FancyPropositions(
     "Q"
@@ -179,16 +187,12 @@ z = FancyPropositions("z")
 #  what the expectations are.
 def example_theory():
     # if a song's genre is x and it only has one genre, then it cannot be any other genre
-    # TODO comapre two songs bpm and make a proposition
+    E.add_constraint(key_compat & lt10 & genre_compat)
 
+    E.add_constraint()
     # Implication
-    E.add_constraint(y >> z)
-    # Negate a formula
-    E.add_constraint(~(x & y))
-    # You can also add more customized "fancy" constraints. Use case: you don't want to enforce "exactly one"
-    # for every instance of BasicPropositions, but you want to enforce it for a, b, and c.:
-    constraint.add_exactly_one(E, a, b, c)
-
+    #  E.add_constraint(y >> z)
+    E.add_constraint()
     return E
 
 
@@ -196,7 +200,30 @@ def solve(song1, song2):
     T = example_theory()
     if abs(song1.BPM - song2.BPM) <= 10:
         T.add_constraint(lt10)
-    # if(song1.genre in genres):
+    if song1.genre == song2.genre:
+        T.add_constraint(genre_compat)
+    else:
+        if genCompare(song1.genre, song2.genre):
+            T.add_constraint(genre_compat)
+    return T.satisfiable()
+
+
+def genCompare(genre1, genre2):
+    index0 = 0
+    index1 = 0
+    for i in range(len(list_gens)):
+        if str(list_gens[i]) == genre1:
+            index0 = i
+    for j in range(len(list_gens)):
+        if str(list_gens[j]) == genre2:
+            index1 = j
+    # if any(genre2 == prop.name for prop in list_compats[index0]):
+    #    return True
+    # else:
+    #    return False
+
+
+# def keyCompare(key1,key2):
 
 
 def loadSongs():
@@ -250,6 +277,7 @@ if __name__ == "__main__":
     T = example_theory()
     # Don't compile until you're finished adding all your constraints!
     T = T.compile()
+
     # After compilation (and only after), you can check some of the properties
     # of your model:
     print("\nSatisfiable: %s" % T.satisfiable())
