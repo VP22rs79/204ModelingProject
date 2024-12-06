@@ -5,18 +5,52 @@ import json
 # These two lines make sure a faster SAT solver is used.
 from nnf import config
 
-genres = ["House", "Hip-Hop", "Trap", "Jungle", 
-          "Classical", "Dubstep", "Folk", "Classic Rock", 
-          "Alternative Rock", "Dancehall", "Afrobeats", "Country",
-          "Techno", "Dance Pop", "Pop Rock"]
+genres = [
+    "House",
+    "Hip-Hop",
+    "Trap",
+    "Jungle",
+    "Classical",
+    "Dubstep",
+    "Folk",
+    "Classic Rock",
+    "Alternative Rock",
+    "Dancehall",
+    "Afrobeats",
+    "Country",
+    "Techno",
+    "Dance Pop",
+    "Pop Rock",
+]
 
-keys = ["Cmaj", "Gmaj", "Dmaj", "Amaj",
-        "Emaj", "Bmaj", "Gbmaj", "Dbmaj",
-        "Abmaj", "Ebmaj", "Bbmaj", "Fmaj",
-        "Amin", "Emin", "Bmin", "Gbmin",
-        "Dbmin", "Abmin", "Ebmin", "Bbmin",
-        "Fmin", "Cmin", "Gmin", "Dmin"
-        ]
+keys = [
+    "Cmaj",
+    "Gmaj",
+    "Dmaj",
+    "Amaj",
+    "Emaj",
+    "Bmaj",
+    "Gbmaj",
+    "Dbmaj",
+    "Abmaj",
+    "Ebmaj",
+    "Bbmaj",
+    "Fmaj",
+    "Amin",
+    "Emin",
+    "Bmin",
+    "Gbmin",
+    "Dbmin",
+    "Abmin",
+    "Ebmin",
+    "Bbmin",
+    "Fmin",
+    "Cmin",
+    "Gmin",
+    "Dmin",
+]
+
+
 class Song:
     def __init__(self, Name, Artist, BPM, Key, Genre):
         self.name = Name
@@ -25,8 +59,19 @@ class Song:
         self.key = Key
         self.genre = Genre
 
-       # for genre in genres:
-           # if g
+    def setKey():
+        x = 2
+
+    def setGenre():
+        x = 1
+
+    def setBpm():
+        x = 0
+
+    # TODO add a method that maps a key proposition to the song instance.
+    # TODO add a method that maps a
+    # for genre in genres:
+    # if g
 
 
 config.sat_backend = "kissat"
@@ -62,11 +107,11 @@ class FancyPropositions:
         return f"A.{self.data}"
 
 
+lt10 = BasicPropositions("lt10")
+key_compat = BasicPropositions("key_compat")
+genre_compat = BasicPropositions("genre_compat")
 # Call your variables whatever you want
-G = BasicPropositions("G") #represents the genre
-K = BasicPropositions("K") #represents the key 
-B = BasicPropositions("B") #represents the BPM 
-song = BasicPropositions("song") 
+
 Cmaj = BasicPropositions("Cmaj")
 Gmaj = BasicPropositions("Gmaj")
 Amaj = BasicPropositions("Amaj")
@@ -99,24 +144,40 @@ Dbmin = BasicPropositions("Dbmin")
 Bbmin = BasicPropositions("Bbmin")
 Fbmin = BasicPropositions("Fbmin")
 house = BasicPropositions("house")
-hipHop = BasicPropositions("hipHop")
+hip_hop = BasicPropositions("hipHop")
 trap = BasicPropositions("trap")
-jungle = BasicPropositions("jungle")
+jungle_dnb = BasicPropositions("jungle_dnb")
 classical = BasicPropositions("classical")
 dubstep = BasicPropositions("dubstep")
 folk = BasicPropositions("folk")
+classic_rock = BasicPropositions("classicRock")
+alt_rock = BasicPropositions("altRock")
+dancehall = BasicPropositions("dancehall")
+country = BasicPropositions("country")
+afrobeats = BasicPropositions("afrobeats")
+techno = BasicPropositions("techno")
+dance_pop = BasicPropositions("dancePop")
+pop_rock = BasicPropositions("popRock")
+list_gens = [house, hip_hop, trap, jungle_dnb]
+list_compats = [
+    [hip_hop, trap, techno, afrobeats, jungle_dnb, dance_pop],
+    [house, trap, jungle_dnb, dancehall, afrobeats, techno],
+    [techno, hip_hop, dubstep, alt_rock, classic_rock, dance_pop],
+    [house, classical, hip_hop, techno, dancehall],
+]
+list_keys = [Cmaj]
+list_key
 
-
-
-#hi remy
-#hello! -remy
-
+# hi remy
+# hello! -remy
+x = BasicPropositions("x")
+y = BasicPropositions("y")
 # At least one of these will be true
-Q = FancyPropositions("Q") #true if a song y can come after song x according to key, BPM, genre 
+Q = FancyPropositions(
+    "Q"
+)  # true if a song y can come after song x according to key, BPM, genre
 oneGenre = FancyPropositions("oneGenre")
 z = FancyPropositions("z")
-
-choice = 0
 
 
 # Build an example full theory for your setting and return it.
@@ -126,107 +187,43 @@ choice = 0
 #  what the expectations are.
 def example_theory():
     # if a song's genre is x and it only has one genre, then it cannot be any other genre
-    E.add_constraint((house[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
+    E.add_constraint(key_compat & lt10 & genre_compat)
 
-    E.add_constraint((hipHop[song] & oneGenre[song]).negate() | (house[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((trap[song] & oneGenre[song]).negate() | (hipHop[song] | house[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((jungle[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | house[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((classical[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | house[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((dubstep[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | house[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((folk[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | house[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((classicRock[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | house[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((altRock[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | house[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((dancehall[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | house[song] | afrobeats[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((afrobeats[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | house[song] | country[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((country[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | house[song] | techno[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((techno[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | house[song] | dancePop[song] | popRock[song]).negate())
-
-    E.add_constraint((dancePop[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | house[song] | popRock[song]).negate())
-
-    E.add_constraint((popRock[song] & oneGenre[song]).negate() | (hipHop[song] | trap[song] | jungle[song] | classical[song] | dubstep[song] | folk[song] | classicRock[song] | altRock[song] | dancehall[song] | afrobeats[song] | country[song] | techno[song] | house[song] | dancePop[song]).negate())
-
-
-    #if a song has two genres x and y, then it cannot be a combination of any other genre with or without x and y.
-    
-    E.add_constraint((house[song] &  ))
-    
-
-
-
-    #if a song has a key x, then it cannot be any other key.
-
-    E.add_constraint((Cmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Gmaj[song]).negate() | (Cmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Dmaj[song]).negate() | (Gmaj[song] | Cmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Amaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Cmaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Emaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Cmaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Bmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Cmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Gbmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Cmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Dbmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Cmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Abmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Cmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Ebmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Cmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Bbmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Cmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Fmaj[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Cmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Amin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Cmaj[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Emin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Cmaj[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Bmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Cmaj[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Gbmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Cmaj[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Dbmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Cmaj[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Abmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Cmaj[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Ebmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Cmaj[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Bbmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Cmaj[song] | Fmin[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Fmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Cmaj[song] | Cmin[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Cmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmaj[song] | Gmin[song] | Dmin[song]).negate())
-
-    E.add_constraint((Gmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Cmaj[song] | Dmin[song]).negate())
-
-    E.add_constraint((Dmin[song]).negate() | (Gmaj[song] | Dmaj[song] | Amaj[song] | Emaj[song] | Bmaj[song] | Gbmaj[song] | Dbmaj[song] | Abmaj[song] | Ebmaj[song] | Bbmaj[song] | Fmaj[song] | Amin[song] | Emin[song] | Bmin[song] | Gbmin[song] | Dbmin[song] | Abmin[song] | Ebmin[song] | Bbmin[song] | Fmin[song] | Cmin[song] | Gmin[song] | Cmaj[song]).negate())
-
-
-
-
-
+    E.add_constraint()
     # Implication
-    E.add_constraint(y >> z)
-    # Negate a formula
-    E.add_constraint(~(x & y))
-    # You can also add more customized "fancy" constraints. Use case: you don't want to enforce "exactly one"
-    # for every instance of BasicPropositions, but you want to enforce it for a, b, and c.:
-    constraint.add_exactly_one(E, a, b, c)
-
+    #  E.add_constraint(y >> z)
+    E.add_constraint()
     return E
+
+
+def solve(song1, song2):
+    T = example_theory()
+    if abs(song1.BPM - song2.BPM) <= 10:
+        T.add_constraint(lt10)
+    if song1.genre == song2.genre:
+        T.add_constraint(genre_compat)
+    else:
+        if genCompare(song1.genre, song2.genre):
+            T.add_constraint(genre_compat)
+    return T.satisfiable()
+
+
+def genCompare(genre1, genre2):
+    index0 = 0
+    index1 = 0
+    for i in range(len(list_gens)):
+        if str(list_gens[i]) == genre1:
+            index0 = i
+    for j in range(len(list_gens)):
+        if str(list_gens[j]) == genre2:
+            index1 = j
+    # if any(genre2 == prop.name for prop in list_compats[index0]):
+    #    return True
+    # else:
+    #    return False
+
+
+# def keyCompare(key1,key2):
 
 
 def loadSongs():
@@ -249,12 +246,23 @@ def loadSongs():
 
 def autoGeneratePlaylist():
     songs = loadSongs()
+    songA = ""
+    songB = ""
     while True:
         songA = input("Enter the name of the first song you want to play:")
         for i in range(len(songs)):
             if songA == songs[i]["Name"]:
                 break
         if songA == songs[i]["Name"]:
+            break
+        else:
+            print("Song not found, retry with another song.")
+    while True:
+        songB = input("Enter the name of the last song you want to be played:")
+        for j in range(len(songs)):
+            if songB == songs[j]["Name"]:
+                break
+        if songB == songs[j]["Name"]:
             break
         else:
             print("Song not found, retry with another song.")
@@ -269,6 +277,7 @@ if __name__ == "__main__":
     T = example_theory()
     # Don't compile until you're finished adding all your constraints!
     T = T.compile()
+
     # After compilation (and only after), you can check some of the properties
     # of your model:
     print("\nSatisfiable: %s" % T.satisfiable())
