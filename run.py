@@ -87,7 +87,12 @@ def exclude_genres(genre_dict, allowed):
             exclusion |= genre_dict[gkey]
     return exclusion
 
-
+def exclude_keys(key_dict, allowed):
+    exclusion = False
+    for kkey in key_dict:
+        if kkey not in allowed:
+            exclusion |= key_dict[kkey]
+    return exclusion
 config.sat_backend = "kissat"
 
 # Encoding that will store all of your constraints
@@ -284,8 +289,8 @@ def example_theory():
         make_implication(
             s1_genres["s1trap"],
             (
-                (s2_genres["hip_hop"] | s2_genres["dubstep"] | s2_genres["alt_rock"])
-                & exclude_genres(s2_genres, ["hip_hop", "dubstep", "alt_rock"]).negate()
+                (s2_genres["s2hip_hop"] | s2_genres["s2dubstep"] | s2_genres["s2alt_rock"])
+                & exclude_genres(s2_genres, ["s2hip_hop", "s2dubstep", "s2alt_rock"]).negate()
             ),
         )
     )
@@ -295,12 +300,12 @@ def example_theory():
             s1_genres["s1classical"],
             (
                 (
-                    s2_genres["hip_hop"]
-                    | s2_genres["jungle_dnb"]
-                    | s2_genres["classic_rock"]
+                    s2_genres["s2hip_hop"]
+                    | s2_genres["s2jungle_dnb"]
+                    | s2_genres["s2classic_rock"]
                 )
                 & exclude_genres(
-                    s2_genres, ["hip_hop", "jungle_dnb", "classic_rock"]
+                    s2_genres, ["s2hip_hop", "s2jungle_dnb", "s2classic_rock"]
                 ).negate()
             ),
         )
@@ -310,8 +315,8 @@ def example_theory():
         make_implication(
             s1_genres["s1jungle_dnb"],
             (
-                (s2_genres["dancehall"] | s2_genres["house"] | s2_genres["hip_hop"])
-                & exclude_genres(s2_genres, ["dancehall", "house", "hip_hop"]).negate()
+                (s2_genres["s2dancehall"] | s2_genres["s2house"] | s2_genres["s2hip_hop"])
+                & exclude_genres(s2_genres, ["s2dancehall", "s2house", "s2hip_hop"]).negate()
             ),
         )
     )
@@ -320,8 +325,8 @@ def example_theory():
         make_implication(
             s1_genres["s1hip_hop"],
             (
-                (s2_genres["house"] | s2_genres["trap"] | s2_genres["jungle_dnb"])
-                & exclude_genres(s2_genres, ["house", "trap", "jungle_dnb"]).negate()
+                (s2_genres["s2house"] | s2_genres["s2trap"] | s2_genres["s2jungle_dnb"])
+                & exclude_genres(s2_genres, ["s2house", "s2trap", "s2jungle_dnb"]).negate()
             ),
         )
     )
@@ -330,24 +335,24 @@ def example_theory():
         make_implication(
             s1_genres["s1dubstep"],
             (
-                (s2_genres["techno"] | s2_genres["dance_pop"] | s2_genres["trap"])
-                & exclude_genres(s2_genres, ["techno", "dance_pop", "trap"]).negate()
+                (s2_genres["s2techno"] | s2_genres["s2dance_pop"] | s2_genres["s2trap"])
+                & exclude_genres(s2_genres, ["s2techno", "s2dance_pop", "s2trap"]).negate()
             ),
         )
     )
 
     E.add_constraint(
         make_implication(
-            s1_genres["classic_rock"],
+            s1_genres["s1classic_rock"],
             (
                 (
-                    s2_genres["alt_rock"]
-                    | s2_genres["pop_rock"]
-                    | s2_genres["classical"]
-                    | s2_genres["folk"]
+                    s2_genres["s2alt_rock"]
+                    | s2_genres["s2pop_rock"]
+                    | s2_genres["s2classical"]
+                    | s2_genres["s2folk"]
                 )
                 & exclude_genres(
-                    s2_genres, ["alt_rock", "pop_rock", "classical", "folk"]
+                    s2_genres, ["s2alt_rock", "s2pop_rock", "s2classical", "s2folk"]
                 ).negate()
             ),
         )
@@ -358,12 +363,12 @@ def example_theory():
             s1_genres["s1folk"],
             (
                 (
-                    s2_genres["country"]
-                    | s2_genres["alt_rock"]
-                    | s2_genres["classic_rock"]
+                    s2_genres["s2country"]
+                    | s2_genres["s2alt_rock"]
+                    | s2_genres["s2classic_rock"]
                 )
                 & exclude_genres(
-                    s2_genres["country", "alt_rock", "classic_rock"]
+                    s2_genres["s2country", "s2alt_rock", "s2classic_rock"]
                 ).negate()
             ),
         )
@@ -373,9 +378,9 @@ def example_theory():
         make_implication(
             s1_genres["s1alt_rock"],
             (
-                (s2_genres["country"] | s2_genres["classic_rock"] | s2_genres["trap"])
+                (s2_genres["s2country"] | s2_genres["s2classic_rock"] | s2_genres["s2trap"])
                 & exclude_genres(
-                    s2_genres, ["country", "classic_rock", "trap"]
+                    s2_genres, ["s2country", "s2classic_rock", "s2trap"]
                 ).negate()
             ),
         )
@@ -386,13 +391,13 @@ def example_theory():
             s1_genres["s1dancehall"],
             (
                 (
-                    s2_genres["afrobeats"]
-                    | s2_genres["jungle_dnb"]
-                    | s2_genres["dance_pop"]
-                    | s2_genres["alt_rock"]
+                    s2_genres["s2afrobeats"]
+                    | s2_genres["s2jungle_dnb"]
+                    | s2_genres["s2dance_pop"]
+                    | s2_genres["s2alt_rock"]
                 )
                 & exclude_genres(
-                    s2_genres, ["afrobeats", "jungle_dnb", "dance_pop", "alt_rock"]
+                    s2_genres, ["s2afrobeats", "s2jungle_dnb", "s2dance_pop", "s2alt_rock"]
                 ).negate()
             ),
         )
@@ -403,13 +408,13 @@ def example_theory():
             s1_genres["s1afrobeats"],
             (
                 (
-                    s2_genres["dancehall"]
-                    | s2_genres["house"]
-                    | s2_genres["pop_rock"]
-                    | s2_genres["dance_pop"]
+                    s2_genres["s2dancehall"]
+                    | s2_genres["s2house"]
+                    | s2_genres["s2pop_rock"]
+                    | s2_genres["s2dance_pop"]
                 )
                 & exclude_genres(
-                    s2_genres, ["dancehall", "house", "pop_rock", "dance_pop"]
+                    s2_genres, ["s2dancehall", "s2house", "s2pop_rock", "s2dance_pop"]
                 ).negate()
             ),
         )
@@ -419,8 +424,8 @@ def example_theory():
         make_implication(
             s1_genres["s1country"],
             (
-                (s2_genres["folk"] | s2_genres["alt_rock"] | s2_genres["pop_rock"])
-                & exclude_genres(s2_genres, ["folk", "alt_rock", "pop_rock"]).negate()
+                (s2_genres["s2folk"] | s2_genres["s2alt_rock"] | s2_genres["s2pop_rock"])
+                & exclude_genres(s2_genres, ["s2folk", "s2alt_rock", "s2pop_rock"]).negate()
             ),
         )
     )
@@ -430,13 +435,13 @@ def example_theory():
             s1_genres["s1techno"],
             (
                 (
-                    s2_genres["house"]
-                    | s2_genres["dance_pop"]
-                    | s2_genres["trap"]
-                    | s2_genres["hip_hop"]
+                    s2_genres["s2house"]
+                    | s2_genres["s2dance_pop"]
+                    | s2_genres["s2trap"]
+                    | s2_genres["s2hip_hop"]
                 )
                 & exclude_genres(
-                    s2_genres, ["house", "dance_pop", "trap", "hip_hop"]
+                    s2_genres, ["s2house", "s2dance_pop", "s2trap", "s2hip_hop"]
                 ).negate()
             ),
         )
@@ -447,13 +452,13 @@ def example_theory():
             s1_genres["s1dance_pop"],
             (
                 (
-                    s2_genres["house"]
-                    | s2_genres["techno"]
-                    | s2_genres["dubstep"]
-                    | s2_genres["dancehall"]
+                    s2_genres["s2house"]
+                    | s2_genres["s2techno"]
+                    | s2_genres["s2dubstep"]
+                    | s2_genres["s2dancehall"]
                 )
                 & exclude_genres(
-                    s2_genres, ["house", "techno", "dubstep", "dancehall"]
+                    s2_genres, ["s2house", "s2techno", "s2dubstep", "s2dancehall"]
                 ).negate()
             ),
         )
@@ -463,12 +468,203 @@ def example_theory():
         make_implication(
             s1_genres["s1pop_rock"],
             (
-                (s2_genres["country"] | s2_genres["folk"] | s2_genres["alt_rock"])
-                & exclude_genres(s2_genres, ["country", "folk", "alt_rock"]).negate()
+                (s2_genres["s2country"] | s2_genres["s2folk"] | s2_genres["s2alt_rock"])
+                & exclude_genres(s2_genres, ["s2country", "s2folk", "s2alt_rock"]).negate()
             ),
         )
     )
 
+    E.add_constraint(make_implication(
+    s1_keys["s1Cmaj"],
+    (
+        (s2_keys["s2Gmaj"] | s2_keys["s2Fmaj"] | s2_keys["s2Amin"]) 
+        & exclude_keys(s2_keys, ["s2Gmaj", "s2Fmaj", "s2Amin"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Gmaj"],
+    (
+        (s2_keys["s2Cmaj"] | s2_keys["s2Dmaj"] | s2_keys["s2Emin"]) 
+        & exclude_keys(s2_keys, ["sCmaj", "s2Dmaj", "s2Emin"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Dmaj"],
+    (
+        (s2_keys["s2Gmaj"] | s2_keys["s2Amaj"] | s2_keys["s2Bmin"]) 
+        & exclude_keys(s2_keys, ["s2Gmaj", "s2Amaj", "s2Bmin"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Amaj"],
+    (
+        (s2_keys["s2Dmaj"] | s2_keys["s2Emaj"] | s2_keys["s2Gbmin"]) 
+        & exclude_keys(s2_keys, ["s2Dmaj", "s2Emaj", "s2Gbmin"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Emaj"],
+    (
+        (s2_keys["s2Amaj"] | s2_keys["s2Bmaj"] | s2_keys["s2Dbmin"]) 
+        & exclude_keys(s2_keys, ["s2Amaj", "s2Bmaj", "s2Dbmin"]).negate()
+    )
+))
+
+    E.add_constraint(make_implication(
+    s1_keys["s1Bmaj"],
+    (
+        (s2_keys["s2Emaj"] | s2_keys["s2Gbmaj"] | s2_keys["s2Abmin"]) 
+        & exclude_keys(s2_keys, ["s2Emaj", "s2Gmaj", "s2Abmin"]).negate()
+    )
+))
+
+    E.add_constraint(make_implication(
+    s1_keys["s1Gbmaj"],
+    (
+        (s2_keys["s2Bmaj"] | s2_keys["s2Dbmaj"] | s2_keys["s2Ebmin"]) 
+        & exclude_keys(s2_keys, ["s2Bmaj", "s2Dbmaj", "s2Ebmin"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Dbmaj"],
+    (
+        (s2_keys["s2Gbmaj"] | s2_keys["s2Abmaj"] | s2_keys["s2Bbmin"]) 
+        & exclude_keys(s2_keys, ["s2Gbmaj", "s2Abmaj", "s2Bbmin"]).negate()
+    )
+))
+
+    E.add_constraint(make_implication(
+    s1_keys["s1Abmaj"],
+    (
+        (s2_keys["s2Dbmaj"] | s2_keys["s2Ebmaj"] | s2_keys["s2Fmin"]) 
+        & exclude_keys(s2_keys, ["s2Dbmaj", "s2Ebmaj", "s2Fmin"]).negate()
+    )
+))
+
+    E.add_constraint(make_implication(
+    s1_keys["s1Ebmaj"],
+    (
+        (s2_keys["s2Abmaj"] | s2_keys["s2Bbmaj"] | s2_keys["s2Cmin"]) 
+        & exclude_keys(s2_keys, ["s2Abmaj", "s2Bbmaj", "s2Cmin"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Bbmaj"],
+    (
+        (s2_keys["s2Ebmaj"] | s2_keys["s2Fmaj"] | s2_keys["s2Gmin"]) 
+        & exclude_keys(s2_keys, ["s2Ebmaj", "s2Fmaj", "s2Gmin"]).negate()
+    )
+))
+
+    E.add_constraint(make_implication(
+    s1_keys["s1Fmaj"],
+    (
+        (s2_keys["s2Bbmaj"] | s2_keys["s2Cmaj"] | s2_keys["s2Dmin"]) 
+        & exclude_keys(s2_keys, ["s2Bbmaj", "s2Cmaj", "s2Dmin"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Amin"],
+    (
+        (s2_keys["s2Dmin"] | s2_keys["s2Emin"] | s2_keys["s2Cmaj"]) 
+        & exclude_keys(s2_keys, ["s2Dmin", "s2Emin", "s2Cmaj"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Emin"],
+    (
+        (s2_keys["s2Amin"] | s2_keys["s2Bmin"] | s2_keys["s2Gmaj"]) 
+        & exclude_keys(s2_keys, ["s2Amin", "s2Bmin", "s2Gmaj"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Bmin"],
+    (
+        (s2_keys["s2Emin"] | s2_keys["s2Gbmin"] | s2_keys["s2Dmaj"]) 
+        & exclude_keys(s2_keys, ["s2Emin", "s2Gbmin", "s2Dmaj"]).negate()
+    )
+))
+
+    E.add_constraint(make_implication(
+    s1_keys["s1Gbmin"],
+    (
+        (s2_keys["s2Bmin"] | s2_keys["s2Dbmin"] | s2_keys["s2Amaj"]) 
+        & exclude_keys(s2_keys, ["s2Bmin", "s2Dbmin", "s2Amaj"]).negate()
+    )
+))
+
+    E.add_constraint(make_implication(
+    s1_keys["s1Dbmin"],
+    (
+        (s2_keys["s2Gbmin"] | s2_keys["s2Abmin"] | s2_keys["s2Emaj"]) 
+        & exclude_keys(s2_keys, ["s2Gbmin", "s2Abmin", "s2Emaj"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Abmin"],
+    (
+        (s2_keys["s2Dbmin"] | s2_keys["s2Ebmin"] | s2_keys["s2Bmaj"]) 
+        & exclude_keys(s2_keys, ["s2Dbmin", "s2Ebmin", "s2Bmaj"]).negate()
+    )
+))
+
+    E.add_constraint(make_implication(
+    s1_keys["s1Ebmin"],
+    (
+        (s2_keys["s2Abmin"] | s2_keys["s2Bbmin"] | s2_keys["s2Gbmaj"]) 
+        & exclude_keys(s2_keys, ["s2Abmin", "s2Bbmin", "s2Gbmaj"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Bbmin"],
+    (
+        (s2_keys["s2Ebmin"] | s2_keys["s2Fmin"] | s2_keys["s2Dbmaj"]) 
+        & exclude_keys(s2_keys, ["s2Ebmin", "s2Fmin", "s2Dbmaj"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Fmin"],
+    (
+        (s2_keys["s2Bbmin"] | s2_keys["s2Cmin"] | s2_keys["s2Abmaj"]) 
+        & exclude_keys(s2_keys, ["s2Bbmin", "s2Cmin", "s2Abmaj"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Cmin"],
+    (
+        (s2_keys["s2Fmin"] | s2_keys["s2Gmin"] | s2_keys["s2Ebmaj"]) 
+        & exclude_keys(s2_keys, ["s2Fmin", "s2Gmin", "s2Ebmaj"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Gmin"],
+    (
+        (s2_keys["s2Cmin"] | s2_keys["s2Dmin"] | s2_keys["s2Bbmaj"]) 
+        & exclude_keys(s2_keys, ["s2Cmin", "s2Dmin", "s2Bbmaj"]).negate()
+    )
+))
+    
+    E.add_constraint(make_implication(
+    s1_keys["s1Dmin"],
+    (
+        (s2_keys["s2Gmin"] | s2_keys["s2Amin"] | s2_keys["s2Fmaj"]) 
+        & exclude_keys(s2_keys, ["s2Gmin", "s2Amin", "s2Fmaj"]).negate()
+    )
+))
     return E
 
 
