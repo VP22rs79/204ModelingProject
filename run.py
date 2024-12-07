@@ -70,10 +70,10 @@ class Song:
 
     def __str__(self):
         return (
-            f"Name: {self.name}, "
-            f"Artist: {self.artist}, "
-            f"BPM: {self.bpm}, "
-            f"Key: {self.key}, "
+            f"Name: {self.name}, \n"
+            f"Artist: {self.artist}, \n"
+            f"BPM: {self.bpm}, \n"
+            f"Key: {self.key}, \n"
             f"Genre: {self.genre}"
         )
 
@@ -1119,7 +1119,7 @@ def mixingAssist(song1):
         loadGenre(song1.genre, song2.genre)
         load_key(song1.key, song2.key)
         if solve(song1, song2):
-            print(song1, song2, "are compatible!")
+            print(song1, song2, "are compatible!\n")
             compat_count += 1
         if count == len(songs) - 1 & compat_count == 0:
             print("no songs compat")
