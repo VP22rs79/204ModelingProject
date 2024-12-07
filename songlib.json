@@ -228,7 +228,7 @@
         "Artist": "Renegade, P.A.",
         "BPM": "165",
         "Key": "Fmaj",
-        "Genre": "jungle"
+        "Genre": "jungle_dnb"
     },
     {
         "Name": "Moonlight Sonata 3rd Movement",
@@ -326,7 +326,7 @@
         "Artist": "Body Hook",
         "BPM": "147",
         "Key": "Gmaj",
-        "Genre": "jungle"
+        "Genre": "jungle_dnb"
     },
     {
         "Name": "Just Be Simple",
