@@ -4,364 +4,364 @@
         "Artist": "Bladee",
         "BPM": "81",
         "Key": "Gmaj",
-        "Genre": "Trap"
+        "Genre": "trap"
     },
     {
         "Name": "Heavy On My Heart",
         "Artist": "Lucki",
         "BPM": "128",
         "Key": "Gbmin",
-        "Genre": "Trap"
+        "Genre": "trap"
     },
     {
         "Name": "Between the Bars",
         "Artist": "Elliott Smith",
         "BPM": "135",
         "Key": "Gmin",
-        "Genre": "Folk"
+        "Genre": "folk"
     },
     {
         "Name": "Plastic Love",
         "Artist": "Mariya Takeuchi",
         "BPM": "104",
         "Key": "Dmin",
-        "Genre": "Dance Pop"
+        "Genre": "dance_pop"
     },
     {
         "Name": "60 Miles",
         "Artist": "Lil RT",
         "BPM": "166",
         "Key": "Abmaj",
-        "Genre": "Hip-Hop"
+        "Genre": "hip_hop"
     },
     {
         "Name": "Gundam",
         "Artist": "Marjorie -W.C. Sinclair",
         "BPM": "127",
         "Key": "Dbmaj",
-        "Genre": "Dancehall"
+        "Genre": "dancehall"
     },
     {
         "Name": "Oblivion",
         "Artist": "Grimes",
         "BPM": "156",
         "Key": "Dmaj",
-        "Genre": "Dance Pop"
+        "Genre": "dance_pop"
     },
     {
         "Name": "Again",
         "Artist": "Snow Strippers",
         "BPM": "154",
         "Key": "Gbmin",
-        "Genre": "Techno"
+        "Genre": "techno"
     },
     {
         "Name": "Don't Look Back In Anger",
         "Artist": "Oasis",
         "BPM": "164",
         "Key": "Cmaj",
-        "Genre": "Classic Rock"
+        "Genre": "classic_rock"
     },
     {
         "Name": "Gimme! Gimme! Gimme! (A Man After Midnight)",
         "Artist": "ABBA",
         "BPM": "120",
         "Key": "Bbmaj",
-        "Genre": "Dance Pop"
+        "Genre": "dance_pop"
     },
     {
         "Name": "Gold",
         "Artist": "2hollis",
         "BPM": "155",
         "Key": "Fmin",
-        "Genre": "Techno"
+        "Genre": "techno"
     },
     {
         "Name": "Hey",
         "Artist": "Pixies",
         "BPM": "100",
         "Key": "Gmaj",
-        "Genre": "Alternative Rock"
+        "Genre": "alt_rock"
     },
     {
         "Name": "Lazarus (feat. Boj)",
         "Artist": "Dave",
         "BPM": "104",
         "Key": "Gmaj",
-        "Genre": "Afrobeats"
+        "Genre": "afrobeats"
     },
     {
         "Name": "(It Goes Like) Nanana",
         "Artist": "Peggy Gou",
         "BPM": "130",
         "Key": "Gmin",
-        "Genre": "House"
+        "Genre": "house"
     },
     {
         "Name": "Overnight Celebrity (feat. Miri Ben-Ari)",
         "Artist": "Twista",
         "BPM": "134",
         "Key": "Bbmin",
-        "Genre": "Hip-Hop"
+        "Genre": "hip_hop"
     },
     {
         "Name": "Atlantis (I Need You)",
         "Artist": "LTJ Bukem",
         "BPM": "155",
         "Key": "Bbmaj",
-        "Genre": "Jungle"
+        "Genre": "jungle_dnb"
     },
     {
         "Name": "fields of forever",
         "Artist": "Chad Lawsen",
         "BPM": "84",
         "Key": "Gmin",
-        "Genre": "Classical"
+        "Genre": "classical"
     },
     {
         "Name": "Scary Monsters and Nice Sprites",
         "Artist": "Skrillex",
         "BPM": "140",
         "Key": "Gmin",
-        "Genre": "Dubstep"
+        "Genre": "dubstep"
     },
     {
         "Name": "The Biggest Lie",
         "Artist": "Elliot Smith",
         "BPM": "151",
         "Key": "Fmaj",
-        "Genre": "Folk"
+        "Genre": "folk"
     },
     {
         "Name": "Tangled Up In Blue",
         "Artist": "Bob Dylan",
         "BPM": "101",
         "Key": "Amaj",
-        "Genre": "Folk"
+        "Genre": "folk"
     },
     {
         "Name": "Sultans of Swing",
         "Artist": "Dire Straits",
         "BPM": "148",
         "Key": "Fmaj",
-        "Genre": "Classic Rock"
+        "Genre": "classic_rock"
     },
     {
         "Name": "Paranoid Android",
         "Artist": "Radiohead",
         "BPM": "164",
         "Key": "Fmaj",
-        "Genre": "Alternative Rock"
+        "Genre": "alt_rock"
     },
     {
         "Name": "Protocol",
         "Artist": "Skeng, Tommy Lee Sparta",
         "BPM": "100",
         "Key": "Bbmin",
-        "Genre": "Dancehall"
+        "Genre": "dancehall"
     },
     {
         "Name": "Gbona",
         "Artist": "Burna Boy",
         "BPM": "94",
         "Key": "Emin",
-        "Genre": "Afrobeats"
+        "Genre": "afrobeats"
     },
     {
         "Name": "Walkin' Back to Georgia",
         "Artist": "Jim Croce",
         "BPM": "128",
         "Key": "Gbmin",
-        "Genre": "Country"
+        "Genre": "country"
     },
     {
         "Name": "Born Slippy (Nuxx)",
         "Artist": "Underworld",
         "BPM": "140",
         "Key": "Bbmaj",
-        "Genre": "Techno"
+        "Genre": "techno"
     },
     {
         "Name": "Meet Me Halfway",
         "Artist": "Black Eyed Peas",
         "BPM": "130",
         "Key": "Bmin",
-        "Genre": "Dance Pop"
+        "Genre": "dance_pop"
     },
     {
         "Name": "Espresso",
         "Artist": "Sabrina Carpenter",
         "BPM": "104",
         "Key": "Cmaj",
-        "Genre": "Pop Rock"
+        "Genre": "pop_rock"
     },
     {
         "Name": "Instant Crush (feat. Julian Casablancas)",
         "Artist": "Daft Punk",
         "BPM": "110",
         "Key": "Bbmin",
-        "Genre": "Dance Pop"
+        "Genre": "dance_pop"
     },
     {
         "Name": "Tell Me One More Time - Mona Yim Remix",
         "Artist": "DJ Seinfeld, Mona Yim",
         "BPM": "124",
         "Key": "Fmin",
-        "Genre": "House"
+        "Genre": "house"
     },
     {
         "Name": "Stunt 101",
         "Artist": "G-Unit",
         "BPM": "96",
         "Key": "Gbmin",
-        "Genre": "Hip-Hop"
+        "Genre": "hip_hop"
     },
     {
         "Name": "Nothing Like uuu",
         "Artist": "Nettspend",
         "BPM": "164",
         "Key": "Dbmin",
-        "Genre": "Trap"
+        "Genre": "trap"
     },
     {
         "Name": "Terrorist - P.A. Mix",
         "Artist": "Renegade, P.A.",
         "BPM": "165",
         "Key": "Fmaj",
-        "Genre": "Jungle"
+        "Genre": "jungle"
     },
     {
         "Name": "Moonlight Sonata 3rd Movement",
         "Artist": "Ludwig van Beethoven",
         "BPM": "163",
         "Key": "Amaj",
-        "Genre": "Classical"
+        "Genre": "classical"
     },
     {
         "Name": "First of the Year (Equinox)",
         "Artist": "Skrillex",
         "BPM": "116",
         "Key": "Fmin",
-        "Genre": "Dubstep"
+        "Genre": "dubstep"
     },
     {
         "Name": "Neverending Math Equation",
         "Artist": "Sun Kil Moon",
         "BPM": "153",
         "Key": "Emaj",
-        "Genre": "Folk"
+        "Genre": "folk"
     },
     {
         "Name": "Losing My Religion",
         "Artist": "R.E.M",
         "BPM": "126",
         "Key": "Amin",
-        "Genre": "Classic Rock"
+        "Genre": "classic_rock"
     },
     {
         "Name": "Andromeda",
         "Artist": "Weyes Blood",
         "BPM": "131",
         "Key": "Dbmin",
-        "Genre": "Alternative Rock"
+        "Genre": "alt_rock"
     },
     {
         "Name": "Evil",
         "Artist": "Rebel Sixx",
         "BPM": "100",
         "Key": "Emin",
-        "Genre": "Dancehall"
+        "Genre": "dancehall"
     },
     {
         "Name": "Drogba (Joanna)",
         "Artist": "Afro B",
         "BPM": "108",
         "Key": "Dmaj",
-        "Genre": "Afrobeats"
+        "Genre": "afrobeats"
     },
     {
         "Name": "Random Rules",
         "Artist": "Silver Jews",
         "BPM": "105",
         "Key": "Cmaj",
-        "Genre": "Country"
+        "Genre": "country"
     },
     {
         "Name": "Push Up",
         "Artist": "Creeds",
         "BPM": "75",
         "Key": "Gmaj",
-        "Genre": "Techno"
+        "Genre": "techno"
     },
     {
         "Name": "Disturbia",
         "Artist": "Rihanna",
         "BPM": "125",
         "Key": "Bmin",
-        "Genre": "Dance Pop"
+        "Genre": "dance_pop"
     },
     {
         "Name": "Misery Business",
         "Artist": "Paramore",
         "BPM": "173",
         "Key": "Dbmin",
-        "Genre": "Pop Rock"
+        "Genre": "pop_rock"
     },
     {
         "Name": "Liverpool Street In The Rain",
         "Artist": "Mall Grab",
         "BPM": "130",
         "Key": "Gbmin",
-        "Genre": "House"
+        "Genre": "house"
     },
     {
         "Name": "Merry-Go-Round of Life",
         "Artist": "Joe Hisaishi, Royal Philharmonic Orchestra",
         "BPM": "178",
         "Key": "Dmin",
-        "Genre": "Classical"
+        "Genre": "classical"
     },
     {
         "Name": "Bad Boy Sound",
         "Artist": "Body Hook",
         "BPM": "147",
         "Key": "Gmaj",
-        "Genre": "Jungle"
+        "Genre": "jungle"
     },
     {
         "Name": "Just Be Simple",
         "Artist": "Songs: Ohia",
         "BPM": "137",
         "Key": "Bmin",
-        "Genre": "Country"
+        "Genre": "country"
     },
     {
         "Name": "good 4 u",
         "Artist": "Olivia Rodrigo",
         "BPM": "167",
         "Key": "Amaj",
-        "Genre": "Pop Rock"
+        "Genre": "pop_rock"
     },
     {
         "Name": "good 4 u",
         "Artist": "Olivia Rodrigo",
         "BPM": "167",
         "Key": "Amaj",
-        "Genre": "Pop Rock"
+        "Genre": "pop_rock"
     },
     {
         "Name": "In the Aeroplane Over the Sea",
         "Artist": "Neutral Milk Hotel",
         "BPM": "94",
         "Key": "Gmaj",
-        "Genre": "Alternative Rock"
+        "Genre": "alt_rock"
     },
     {
         "Name": "Only A Fool Would Say That",
         "Artist": "Steely Dan",
         "BPM": "130",
         "Key": "Cmaj",
-        "Genre": "Alternative Rock"
+        "Genre": "alt_rock"
     },
     {}
 ]
