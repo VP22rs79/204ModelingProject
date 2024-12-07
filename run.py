@@ -261,6 +261,7 @@ def example_theory():
     s2_genre_vars = list(s2_genres.values())
     constraint.add_exactly_one(E, *s2_genre_vars)
     (s >> 2)
+    s
     # E.add_constraint(s1_genres[s1_genre]-->)
 
     E.add_constraint(
