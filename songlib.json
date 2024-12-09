@@ -343,11 +343,11 @@
         "Genre": "pop_rock"
     },
     {
-        "Name": "good 4 u",
-        "Artist": "Olivia Rodrigo",
-        "BPM": "167",
-        "Key": "Amaj",
-        "Genre": "pop_rock"
+        "Name": "dashstar",
+        "Artist": "Knock2",
+        "BPM": "126",
+        "Key": "Fmaj",
+        "Genre": "dubstep"
     },
     {
         "Name": "In the Aeroplane Over the Sea",
@@ -363,5 +363,39 @@
         "Key": "Cmaj",
         "Genre": "alt_rock"
     },
-    {}
+    {
+        "Name": "Rescue",
+        "Artist": "Zeds Dead",
+        "BPM": "145",
+        "Key": "Dbmaj",
+        "Genre": "dubstep"
+    },
+    {
+        "Name": "Pray For Riddim",
+        "Artist": "Virtual Riot",
+        "BPM": "150",
+        "Key": "Dbmaj",
+        "Genre": "dubstep"
+    },
+    {
+        "Name": "Blood Stream",
+        "Artist": "Ed Sheeran",
+        "BPM": "91",
+        "Key": "Ebmaj",
+        "Genre": "pop_rock"
+    },
+    {
+        "Name": "The Flag is Raised",
+        "Artist": "Bladee and Ecco2k",
+        "BPM": "138",
+        "Key": "Cmin",
+        "Genre": "dance_pop"
+    },
+    {
+        "Name": "Poker Face",
+        "Artist": "Lady Gaga",
+        "BPM": "120",
+        "Key": "Bmaj",
+        "Genre": "dance_pop"
+    }
 ]

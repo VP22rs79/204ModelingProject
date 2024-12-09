@@ -2,11 +2,11 @@ from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions, likelihood
 import json
 from nnf import Var, true, false
-from random import randint
 
 # These two lines make sure a faster SAT solver is used.
 from nnf import config
 
+# list of all the genres and keys.
 genres = [
     "house",
     "hip_hop",
@@ -31,7 +31,6 @@ keys = [
     "Amaj",
     "Dmaj",
     "Emaj",
-    "Dmaj",
     "Bmaj",
     "Fmaj",
     "Cbmaj",
@@ -49,17 +48,16 @@ keys = [
     "Dmin",
     "Bmin",
     "Fmin",
-    "Cbmin",
     "Gbmin",
     "Abmin",
     "Dbmin",
     "Ebmin",
     "Dbmin",
     "Bbmin",
-    "Fbmin",
 ]
 
 
+# the class song which encapsulates all the data tied to a song.
 class Song:
     def __init__(self, Name, Artist, BPM, Key, Genre):
         self.name = Name
@@ -78,29 +76,10 @@ class Song:
         )
 
 
-def exclude_genres(genre_dict, allowed):
-    exclusion = []
-    for gkey in genre_dict:
-        if gkey not in allowed:
-            exclusion |= genre_dict[gkey]
-    return exclusion
-
-
-def exclude_keys(key_dict, allowed):
-    exclusion
-    for kkey in key_dict:
-        if kkey not in allowed:
-            exclusion |= key_dict[kkey]
-    return exclusion
-
-
 config.sat_backend = "kissat"
-
-# Encoding that will store all of your constraints
 E = Encoding()
 
 
-# To create propositions, create classes for them first, annotated with "@proposition" and the Encoding
 @proposition(E)
 class BasicPropositions:
 
@@ -111,17 +90,7 @@ class BasicPropositions:
         return f"A.{self.data}"
 
 
-# Different classes for propositions are useful because this allows for more dynamic constraint creation
-# for propositions within that class. For example, you can enforce that "at least one" of the propositions
-# that are instances of this class must be true by using a @constraint decorator.
-# other options include: at most one, exactly one, at most k, and implies all.
-# For a complete module reference, see https://bauhaus.readthedocs.io/en/latest/bauhaus.html
-
-
-lt10 = BasicPropositions("lt10")
-key_compat = BasicPropositions("key_compat")
-genre_compat = BasicPropositions("genre_compat")
-
+# class variables to store the genres and keys of the two songs and all the genres and keys
 s1_genre = ""
 s2_genre = ""
 s1_key = ""
@@ -132,9 +101,10 @@ s1_genres = {}
 s2_genres = {}
 
 
-# Call your variables whatever you want
+# function to declutter code and instantiate all the propositions
 def init_props():
     global s1_keys, s2_keys, s1_genres, s2_genres
+    # all the keys and genres are stored in dictionaries for easy access later on.
     s1_keys = {
         "s1Cmaj": BasicPropositions("s1Cmaj"),
         "s1Gmaj": BasicPropositions("s1Gmaj"),
@@ -149,7 +119,6 @@ def init_props():
         "s1Abmaj": BasicPropositions("s1Abmaj"),
         "s1Dbmaj": BasicPropositions("s1Dbmaj"),
         "s1Ebmaj": BasicPropositions("s1Ebmaj"),
-        "s1Dbmaj": BasicPropositions("s1Dbmaj"),
         "s1Bbmaj": BasicPropositions("s1Bbmaj"),
         "s1Cmin": BasicPropositions("s1Cmin"),
         "s1Gmin": BasicPropositions("s1Gmin"),
@@ -159,14 +128,12 @@ def init_props():
         "s1Dmin": BasicPropositions("s1Dmin"),
         "s1Bmin": BasicPropositions("s1Bmin"),
         "s1Fmin": BasicPropositions("s1Fmin"),
-        "s1Cbmin": BasicPropositions("s1Cbmin"),
         "s1Gbmin": BasicPropositions("s1Gbmin"),
         "s1Abmin": BasicPropositions("s1Abmin"),
         "s1Dbmin": BasicPropositions("s1Dbmin"),
         "s1Ebmin": BasicPropositions("s1Ebmin"),
         "s1Dbmin": BasicPropositions("s1Dbmin"),
         "s1Bbmin": BasicPropositions("s1Bbmin"),
-        "s1Fbmin": BasicPropositions("s1Fbmin"),
     }
     s2_keys = {
         "s2Cmaj": BasicPropositions("s2Cmaj"),
@@ -192,14 +159,12 @@ def init_props():
         "s2Dmin": BasicPropositions("s2Dmin"),
         "s2Bmin": BasicPropositions("s2Bmin"),
         "s2Fmin": BasicPropositions("s2Fmin"),
-        "s2Cbmin": BasicPropositions("s2Cbmin"),
         "s2Gbmin": BasicPropositions("s2Gbmin"),
         "s2Abmin": BasicPropositions("s2Abmin"),
         "s2Dbmin": BasicPropositions("s2Dbmin"),
         "s2Ebmin": BasicPropositions("s2Ebmin"),
         "s2Dbmin": BasicPropositions("s2Dbmin"),
         "s2Bbmin": BasicPropositions("s2Bbmin"),
-        "s2Fbmin": BasicPropositions("s2Fbmin"),
     }
     s1_genres = {
         "s1house": BasicPropositions("s1house"),
@@ -238,32 +203,9 @@ def init_props():
     return s1_keys, s2_keys, s1_genres, s2_genres
 
 
-# Build an example full theory for your setting and return it.
-#
-#  There should be at least 10 variables, and a sufficiently large formula to describe it (>50 operators).
-#  This restriction is fairly minimal, and if there is any concern, reach out to the teaching staff to clarify
-#  what the expectations are.
+# all the constraints that decide the compability between genre and key.
 def example_theory():
     s1_keys, s2_keys, s1_genres, s2_genres = init_props()
-    # Ensure exactly one key for s1
-    # s1_key_vars = list(s1_keys.values())
-    # constraint.add_exactly_one(E, *s1_key_vars)
-
-    ## Ensure exactly one key for s2
-    # s2_key_vars = list(s2_keys.values())
-    # constraint.add_exactly_one(E, *s2_key_vars)
-
-    ## Ensure exactly one genre for s1
-    # s1_genre_vars = list(s1_genres.values())
-    # constraint.add_exactly_one(E, *s1_genre_vars)
-
-    ## Ensure exactly one genre for s2
-    # s2_genre_vars = list(s2_genres.values())
-    # constraint.add_exactly_one(E, *s2_genre_vars)
-    ## (s >> 2)
-
-    ## E.add_constraint(s1_genres[s1_genre]-->)
-
     E.add_constraint(
         s1_genres["s1trap"]
         >> (
@@ -274,167 +216,191 @@ def example_theory():
                 | s2_genres["s2classic_rock"]
                 | s2_genres["s2techno"]
                 | s2_genres["s2dance_pop"]
+                | s2_genres["s2trap"]
             )
-            & ~(
-                s2_genres["s2house"]
-                & s2_genres["s2jungle_dnb"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2country"]
-                & s2_genres["s2pop_rock"]
+            & (
+                ~s2_genres["s2house"]
+                | ~s2_genres["s2jungle_dnb"]
+                | ~s2_genres["s2classical"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2dancehall"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2pop_rock"]
             )
         )
     )
 
     E.add_constraint(
-        s1_genres["s1classical"]
+        (s1_genres["s1classical"])
         >> (
             (
                 s2_genres["s2hip_hop"]
                 | s2_genres["s2jungle_dnb"]
                 | s2_genres["s2classic_rock"]
+                | s2_genres["s2classical"]
             )
-            & ~(
+            & (
+                ~s2_genres["s2house"]
+                | ~s2_genres["s2trap"]
+                | ~s2_genres["s2dubstep"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2dancehall"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2techno"]
+                | ~s2_genres["s2dance_pop"]
+                | ~s2_genres["s2pop_rock"]
+            )
+        )
+    )
+
+    E.add_constraint(
+        (s1_genres["s1jungle_dnb"])
+        >> (
+            (
+                s2_genres["s2dancehall"]
+                | s2_genres["s2house"]
+                | s2_genres["s2hip_hop"]
+                | s2_genres["s2techno"]
+                | s2_genres["s2classical"]
+                | s2_genres["s2jungle_dnb"]
+            )
+            & (
+                ~s2_genres["s2trap"]
+                | ~s2_genres["s2dubstep"]
+                | ~s2_genres["s2classic_rock"]
+                | ~s2_genres["s2alt_rock"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2dance_pop"]
+                | ~s2_genres["s2pop_rock"]
+            )
+        )
+    )
+
+    E.add_constraint(
+        (s1_genres["s1hip_hop"])
+        >> (
+            (
                 s2_genres["s2house"]
-                & s2_genres["s2trap"]
-                & s2_genres["s2dubstep"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2country"]
-                & s2_genres["s2techno"]
-                & s2_genres["s2dance_pop"]
-                & s2_genres["s2pop_rock"]
+                | s2_genres["s2trap"]
+                | s2_genres["s2jungle_dnb"]
+                | s2_genres["s2classical"]
+                | s2_genres["s2techno"]
+                | s2_genres["s2dancehall"]
+                | s2_genres["s2afrobeats"]
+                | s2_genres["s2hip_hop"]
+            )
+            & (
+                ~s2_genres["s2dubstep"]
+                | ~s2_genres["s2classic_rock"]
+                | ~s2_genres["s2alt_rock"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2dance_pop"]
+                | ~s2_genres["s2pop_rock"]
             )
         )
     )
 
     E.add_constraint(
-        s1_genres["s1jungle_dnb"]
+        (s1_genres["s1dubstep"])
         >> (
-            (s2_genres["s2dancehall"] | s2_genres["s2house"] | s2_genres["s2hip_hop"])
-            & ~(
-                s2_genres["s2trap"]
-                & s2_genres["s2dubstep"]
-                & s2_genres["s2classic_rock"]
-                & s2_genres["s2alt_rock"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2country"]
-                & s2_genres["s2techno"]
-                & s2_genres["s2dance_pop"]
-                & s2_genres["s2pop_rock"]
+            (
+                s2_genres["s2techno"]
+                | s2_genres["s2dance_pop"]
+                | s2_genres["s2trap"]
+                | s2_genres["s2classic_rock"]
+                | s2_genres["s2jungle_dnb"]
+                | s2_genres["s2dubstep"]
+            )
+            & (
+                ~s2_genres["s2house"]
+                | ~s2_genres["s2hip_hop"]
+                | ~s2_genres["s2alt_rock"]
+                | ~s2_genres["s2classical"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2dancehall"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2pop_rock"]
             )
         )
     )
 
     E.add_constraint(
-        s1_genres["s1hip_hop"]
-        >> (
-            (s2_genres["s2house"] | s2_genres["s2trap"] | s2_genres["s2jungle_dnb"])
-            & ~(
-                s2_genres["s2dubstep"]
-                & s2_genres["s2classic_rock"]
-                & s2_genres["s2alt_rock"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2country"]
-                & s2_genres["s2techno"]
-                & s2_genres["s2dance_pop"]
-                & s2_genres["s2pop_rock"]
-            )
-        )
-    )
-
-    E.add_constraint(
-        s1_genres["s1dubstep"]
-        >> (
-            (s2_genres["s2techno"] | s2_genres["s2dance_pop"] | s2_genres["s2trap"])
-            & ~(
-                s2_genres["s2house"]
-                & s2_genres["s2hip_hop"]
-                & s2_genres["s2classic_rock"]
-                & s2_genres["s2alt_rock"]
-                & s2_genres["s2jungle_dnb"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2country"]
-                & s2_genres["s2pop_rock"]
-            )
-        )
-    )
-
-    E.add_constraint(
-        s1_genres["s1classic_rock"]
+        (s1_genres["s1classic_rock"])
         >> (
             (
                 s2_genres["s2alt_rock"]
                 | s2_genres["s2pop_rock"]
                 | s2_genres["s2classical"]
                 | s2_genres["s2folk"]
+                | s2_genres["s2country"]
+                | s2_genres["s2trap"]
+                | s2_genres["s2dubstep"]
+                | s2_genres["s2classic_rock"]
             )
-            & ~(
-                s2_genres["s2house"]
-                & s2_genres["s2trap"]
-                & s2_genres["s2jungle_dnb"]
-                & s2_genres["s2hip_hop"]
-                & s2_genres["s2dubstep"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2country"]
-                & s2_genres["s2techno"]
-                & s2_genres["s2dance_pop"]
-                & s2_genres["s2pop_rock"]
+            & (
+                ~s2_genres["s2house"]
+                | ~s2_genres["s2jungle_dnb"]
+                | ~s2_genres["s2hip_hop"]
+                | ~s2_genres["s2dancehall"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2techno"]
+                | ~s2_genres["s2dance_pop"]
+                | ~s2_genres["s2pop_rock"]
             )
         )
     )
 
     E.add_constraint(
-        s1_genres["s1folk"]
+        (s1_genres["s1folk"])
         >> (
             (
                 s2_genres["s2country"]
                 | s2_genres["s2alt_rock"]
                 | s2_genres["s2classic_rock"]
+                | s2_genres["s2pop_rock"]
+                | s2_genres["s2folk"]
             )
-            & ~(
-                s2_genres["s2house"]
-                & s2_genres["s2trap"]
-                & s2_genres["s2jungle_dnb"]
-                & s2_genres["s2hip_hop"]
-                & s2_genres["s2dubstep"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2techno"]
-                & s2_genres["s2dance_pop"]
-                & s2_genres["s2pop_rock"]
+            & (
+                ~s2_genres["s2house"]
+                | ~s2_genres["s2trap"]
+                | ~s2_genres["s2jungle_dnb"]
+                | ~s2_genres["s2hip_hop"]
+                | ~s2_genres["s2dubstep"]
+                | ~s2_genres["s2dancehall"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2techno"]
+                | ~s2_genres["s2dance_pop"]
             )
         )
     )
 
     E.add_constraint(
-        s1_genres["s1alt_rock"]
+        (s1_genres["s1alt_rock"])
         >> (
-            (s2_genres["s2country"] | s2_genres["s2classic_rock"] | s2_genres["s2trap"])
-            & ~(
-                s2_genres["s2house"]
-                & s2_genres["s2jungle_dnb"]
-                & s2_genres["s2hip_hop"]
-                & s2_genres["s2dubstep"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2techno"]
-                & s2_genres["s2dance_pop"]
-                & s2_genres["s2pop_rock"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
+            (
+                s2_genres["s2country"]
+                | s2_genres["s2classic_rock"]
+                | s2_genres["s2trap"]
+                | s2_genres["s2folk"]
+                | s2_genres["s2pop_rock"]
+                | s2_genres["s2dancehall"]
+                | s2_genres["s2alt_rock"]
+            )
+            & (
+                ~s2_genres["s2house"]
+                | ~s2_genres["s2jungle_dnb"]
+                | ~s2_genres["s2hip_hop"]
+                | ~s2_genres["s2dubstep"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2techno"]
+                | ~s2_genres["s2dance_pop"]
+                | ~s2_genres["s2classical"]
             )
         )
     )
@@ -447,115 +413,124 @@ def example_theory():
                 | s2_genres["s2jungle_dnb"]
                 | s2_genres["s2dance_pop"]
                 | s2_genres["s2alt_rock"]
+                | s2_genres["s2hip_hop"]
+                | s2_genres["s2dancehall"]
             )
-            & ~(
-                s2_genres["s2house"]
-                & s2_genres["s2trap"]
-                & s2_genres["s2hip_hop"]
-                & s2_genres["s2dubstep"]
-                & s2_genres["s2classic_rock"]
-                & s2_genres["s2pop_rock"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2country"]
-                & s2_genres["s2techno"]
+            & (
+                ~s2_genres["s2house"]
+                | ~s2_genres["s2trap"]
+                | ~s2_genres["s2dubstep"]
+                | ~s2_genres["s2classic_rock"]
+                | ~s2_genres["s2pop_rock"]
+                | ~s2_genres["s2classical"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2techno"]
             )
         )
     )
 
     E.add_constraint(
-        s1_genres["s1afrobeats"]
+        (s1_genres["s1afrobeats"])
         >> (
             (
                 s2_genres["s2dancehall"]
                 | s2_genres["s2house"]
                 | s2_genres["s2pop_rock"]
                 | s2_genres["s2dance_pop"]
+                | s2_genres["s2alt_rock"]
+                | s2_genres["s2hip_hop"]
+                | s2_genres["s2afrobeats"]
             )
-            & ~(
-                s2_genres["s2techno"]
-                & s2_genres["s2trap"]
-                & s2_genres["s2hip_hop"]
-                & s2_genres["s2jungle_dnb"]
-                & s2_genres["s2classic_rock"]
-                & s2_genres["s2alt_rock"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2country"]
-                & s2_genres["s2dubstep"]
+            & (
+                ~s2_genres["s2techno"]
+                | ~s2_genres["s2trap"]
+                | ~s2_genres["s2jungle_dnb"]
+                | ~s2_genres["s2classic_rock"]
+                | ~s2_genres["s2classical"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2dubstep"]
             )
         )
     )
 
     E.add_constraint(
-        s1_genres["s1country"]
+        (s1_genres["s1country"])
         >> (
-            (s2_genres["s2folk"] | s2_genres["s2alt_rock"] | s2_genres["s2pop_rock"])
-            & ~(
-                s2_genres["s2house"]
-                & s2_genres["s2trap"]
-                & s2_genres["s2jungle_dnb"]
-                & s2_genres["s2hip_hop"]
-                & s2_genres["s2dubstep"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2techno"]
-                & s2_genres["s2dance_pop"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2classic_rock"]
+            (
+                s2_genres["s2folk"]
+                | s2_genres["s2alt_rock"]
+                | s2_genres["s2pop_rock"]
+                | s2_genres["s2classic_rock"]
+                | s2_genres["s2country"]
             )
+        )
+        & (
+            ~s2_genres["s2house"]
+            | ~s2_genres["s2jungle_dnb"]
+            | ~s2_genres["s2trap"]
+            | ~s2_genres["s2hip_hop"]
+            | ~s2_genres["s2dubstep"]
+            | ~s2_genres["s2dancehall"]
+            | ~s2_genres["s2afrobeats"]
+            | ~s2_genres["s2techno"]
+            | ~s2_genres["s2dance_pop"]
+            | ~s2_genres["s2classical"]
         )
     )
 
     E.add_constraint(
-        s1_genres["s1techno"]
+        (s1_genres["s1techno"])
         >> (
             (
                 s2_genres["s2house"]
                 | s2_genres["s2dance_pop"]
                 | s2_genres["s2trap"]
                 | s2_genres["s2hip_hop"]
+                | s2_genres["s2jungle_dnb"]
+                | s2_genres["s2dubstep"]
+                | s2_genres["s2techno"]
             )
-            & ~(
-                s2_genres["s2jungle_dnb"]
-                & s2_genres["s2classic_rock"]
-                & s2_genres["s2alt_rock"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2country"]
-                & s2_genres["s2pop_rock"]
-                & s2_genres["s2dubstep"]
+            & (
+                ~s2_genres["s2classic_rock"]
+                | ~s2_genres["s2alt_rock"]
+                | ~s2_genres["s2classical"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2dancehall"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2pop_rock"]
             )
         )
     )
 
     E.add_constraint(
-        s1_genres["s1dance_pop"]
+        (s1_genres["s1dance_pop"])
         >> (
             (
                 s2_genres["s2house"]
                 | s2_genres["s2techno"]
                 | s2_genres["s2dubstep"]
                 | s2_genres["s2dancehall"]
+                | s2_genres["s2pop_rock"]
+                | s2_genres["s2dance_pop"]
             )
-            & ~(
-                s2_genres["s2trap"]
-                & s2_genres["s2hip_hop"]
-                & s2_genres["s2jungle_dnb"]
-                & s2_genres["s2classic_rock"]
-                & s2_genres["s2alt_rock"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2country"]
-                & s2_genres["s2pop_rock"]
+            & (
+                ~s2_genres["s2trap"]
+                | ~s2_genres["s2hip_hop"]
+                | ~s2_genres["s2jungle_dnb"]
+                | ~s2_genres["s2classic_rock"]
+                | ~s2_genres["s2alt_rock"]
+                | ~s2_genres["s2classical"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2country"]
             )
         )
     )
     E.add_constraint(
-        s1_genres["s1house"]
+        (s1_genres["s1house"])
         >> (
             s2_genres["s2afrobeats"]
             | s2_genres["s2hip_hop"]
@@ -563,537 +538,864 @@ def example_theory():
             | s2_genres["s2jungle_dnb"]
             | s2_genres["s2techno"]
             | s2_genres["s2dance_pop"]
-            & ~(
-                s2_genres["s2classic_rock"]
-                & s2_genres["s2pop_rock"]
-                & s2_genres["s2classical"]
-                & s2_genres["s2folk"]
-                & s2_genres["s2country"]
-                & s2_genres["s2dubstep"]
-                & s2_genres["s2alt_rock"]
-                & s2_genres["s2dancehall"]
+            | s2_genres["s2house"]
+            & (
+                ~s2_genres["s2classic_rock"]
+                | ~s2_genres["s2pop_rock"]
+                | ~s2_genres["s2classical"]
+                | ~s2_genres["s2folk"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2dubstep"]
+                | ~s2_genres["s2alt_rock"]
+                | ~s2_genres["s2dancehall"]
             )
         )
     )
 
     E.add_constraint(
-        s1_genres["s1pop_rock"]
+        (s1_genres["s1pop_rock"])
         >> (
-            (s2_genres["s2country"] | s2_genres["s2folk"] | s2_genres["s2alt_rock"])
-            & ~(
-                s2_genres["s2house"]
-                & s2_genres["s2trap"]
-                & s2_genres["s2jungle_dnb"]
-                & s2_genres["s2hip_hop"]
-                & s2_genres["s2dubstep"]
-                & s2_genres["s2dancehall"]
-                & s2_genres["s2afrobeats"]
-                & s2_genres["s2country"]
-                & s2_genres["s2techno"]
-                & s2_genres["s2dance_pop"]
-                & s2_genres["s2classic_rock"]
+            (
+                s2_genres["s2country"]
+                | s2_genres["s2folk"]
+                | s2_genres["s2alt_rock"]
+                | s2_genres["s2dance_pop"]
+                | s2_genres["s2classic_rock"]
+                | s2_genres["s2pop_rock"]
+            )
+            & (
+                ~s2_genres["s2house"]
+                | ~s2_genres["s2trap"]
+                | ~s2_genres["s2jungle_dnb"]
+                | ~s2_genres["s2hip_hop"]
+                | ~s2_genres["s2dubstep"]
+                | ~s2_genres["s2dancehall"]
+                | ~s2_genres["s2afrobeats"]
+                | ~s2_genres["s2country"]
+                | ~s2_genres["s2techno"]
             )
         )
     )
-
     E.add_constraint(
-        s1_keys["s1Ebmaj"]
+        (s1_keys["s1Ebmaj"])
         >> (
             s2_keys["s2Abmaj"]
             | s2_keys["s2Bbmaj"]
             | s2_keys["s2Cmin"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Ebmaj"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
+            )
+        )
+    )
+    E.add_constraint(
+        (s1_keys["s1Bmaj"])
+        >> (
+            s2_keys["s2Emaj"]
+            | s2_keys["s2Gbmaj"]
+            | s2_keys["s2Abmin"]
+            | s2_keys["s2Bmaj"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
+            )
+        )
+    )
+    E.add_constraint(
+        (s1_keys["s1Gbmaj"])
+        >> (
+            s2_keys["s2Ebmin"]
+            | s2_keys["s2Dbmaj"]
+            | s2_keys["s2Bmaj"]
+            | s2_keys["s2Gbmaj"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Cmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Bbmaj"]
+        (s1_keys["s1Bbmaj"])
         >> (
             s2_keys["s2Ebmaj"]
             | s2_keys["s2Fmaj"]
             | s2_keys["s2Gmin"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Bbmaj"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Fmaj"]
+        (s1_keys["s1Fmaj"])
         >> (
             s2_keys["s2Bbmaj"]
             | s2_keys["s2Cmaj"]
             | s2_keys["s2Dmin"]
-            & ~(
-                s2_keys["s2Gmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Fmaj"]
+            & (
+                ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Amin"]
+        (s1_keys["s1Emaj"])
+        >> (
+            s2_keys["s2Emaj"]
+            | s2_keys["s2Dbmin"]
+            | s2_keys["s2Amaj"]
+            | s2_keys["s2Bmaj"]
+            & (
+                ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Dmaj"]
+            )
+        )
+    )
+
+    E.add_constraint(
+        (s1_keys["s1Amaj"])
+        >> (
+            s2_keys["s2Amaj"]
+            | s2_keys["s2Emaj"]
+            | s2_keys["s2Dmaj"]
+            | s2_keys["s2Gbmin"]
+            & (
+                s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Abmin"]
+            )
+        )
+    )
+
+    E.add_constraint(
+        (s1_keys["s1Amin"])
         >> (
             s2_keys["s2Dmin"]
             | s2_keys["s2Emin"]
             | s2_keys["s2Cmaj"]
-            & ~(
-                s2_keys["s2Gmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Amin"]
+            & (
+                ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Abmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Emin"]
+        (s1_keys["s1Emin"])
         >> (
             s2_keys["s2Amin"]
             | s2_keys["s2Bmin"]
             | s2_keys["s2Gmaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Emin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Bmin"]
+        (s1_keys["s1Bmin"])
         >> (
             s2_keys["s2Emin"]
             | s2_keys["s2Gbmin"]
             | s2_keys["s2Dmaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Bmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Gbmin"]
+        (s1_keys["s1Gbmin"])
         >> (
             s2_keys["s2Bmin"]
             | s2_keys["s2Dbmin"]
             | s2_keys["s2Amaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Gbmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Dbmin"]
+        (s1_keys["s1Dbmin"])
         >> (
             s2_keys["s2Gbmin"]
             | s2_keys["s2Abmin"]
             | s2_keys["s2Emaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Dbmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Fmaj"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Abmin"]
+        (s1_keys["s1Abmin"])
         >> (
             s2_keys["s2Dbmin"]
             | s2_keys["s2Ebmin"]
             | s2_keys["s2Bmaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Abmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Fmaj"]
             )
         )
     )
     E.add_constraint(
-        s1_keys["s1Ebmin"]
+        (s1_keys["s1Ebmin"])
         >> (
-            s2_keys["s2Abmin"]
+            s2_keys["s2Abmaj"]
             | s2_keys["s2Bbmin"]
             | s2_keys["s2Gbmaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Ebmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Bbmin"]
+        (s1_keys["s1Bbmin"])
         >> (
             s2_keys["s2Ebmin"]
             | s2_keys["s2Fmin"]
             | s2_keys["s2Dbmaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Bbmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Bmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Fmin"]
+        (s1_keys["s1Fmin"])
         >> (
             s2_keys["s2Bbmin"]
             | s2_keys["s2Cmin"]
             | s2_keys["s2Abmaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Fmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Cmin"]
+        (s1_keys["s1Cmin"])
         >> (
             s2_keys["s2Fmin"]
             | s2_keys["s2Gmin"]
             | s2_keys["s2Ebmaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Cmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Bbmaj"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Amin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Gmin"]
+        (s1_keys["s1Gmin"])
         >> (
             s2_keys["s2Cmin"]
             | s2_keys["s2Dmin"]
             | s2_keys["s2Bbmaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Amaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Gmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Gmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Amin"]
             )
         )
     )
 
     E.add_constraint(
-        s1_keys["s1Dmin"]
+        (s1_keys["s1Dmin"])
         >> (
             s2_keys["s2Gmin"]
             | s2_keys["s2Amin"]
             | s2_keys["s2Fmaj"]
-            & ~(
-                s2_keys["s2Cmaj"]
-                & s2_keys["s2Gmaj"]
-                & s2_keys["s2Dmaj"]
-                & s2_keys["s2Emaj"]
-                & s2_keys["s2Bmaj"]
-                & s2_keys["s2Gbmaj"]
-                & s2_keys["s2Abmaj"]
-                & s2_keys["s2Dbmaj"]
-                & s2_keys["s2Ebmaj"]
-                & s2_keys["s2Bbmaj"]
-                & s2_keys["s2Cmin"]
-                & s2_keys["s2Dmin"]
-                & s2_keys["s2Emin"]
-                & s2_keys["s2Bmin"]
-                & s2_keys["s2Fmin"]
-                & s2_keys["s2Cbmaj"]
-                & s2_keys["s2Gbmin"]
-                & s2_keys["s2Abmin"]
-                & s2_keys["s2Dbmin"]
-                & s2_keys["s2Ebmin"]
-                & s2_keys["s2Fbmin"]
+            | s2_keys["s2Dmin"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Bbmaj"]
             )
         )
     )
 
-    # Continue for the remaining constraints...
+    E.add_constraint(
+        s1_keys["s1Dbmaj"]
+        >> (
+            s2_keys["s2Gbmaj"]
+            | s2_keys["s2Abmaj"]
+            | s2_keys["s2Bbmin"]
+            | s2_keys["s2Dbmaj"]
+            & (
+                ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Bbmaj"]
+            )
+        )
+    )
+
+    E.add_constraint(
+        s1_keys["s1Cmaj"]
+        >> (
+            s2_keys["s2Fmaj"]
+            | s2_keys["s2Gmaj"]
+            | s2_keys["s2Amin"]
+            | s2_keys["s2Cmaj"]
+            & (
+                ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Bbmaj"]
+            )
+        )
+    )
+
+    E.add_constraint(
+        s1_keys["s1Gmaj"]
+        >> (
+            s2_keys["s2Cmaj"]
+            | s2_keys["s2Dmaj"]
+            | s2_keys["s2Emin"]
+            | s2_keys["s2Gmaj"]
+            & (
+                ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Bbmaj"]
+            )
+        )
+    )
+
+    E.add_constraint(
+        s1_keys["s1Dmaj"]
+        >> (
+            s2_keys["s2Gmaj"]
+            | s2_keys["s2Amaj"]
+            | s2_keys["s2Bmin"]
+            | s2_keys["s2Dmaj"]
+            & (
+                ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Abmaj"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Dbmaj"]
+                | ~s2_keys["s2Ebmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Fmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmaj"]
+            )
+        )
+    )
+
+    E.add_constraint(
+        s1_keys["s1Abmaj"]
+        >> (
+            s2_keys["s2Dbmaj"]
+            | s2_keys["s2Ebmaj"]
+            | s2_keys["s2Fmin"]
+            | s2_keys["s2Abmaj"]
+            & (
+                ~s2_keys["s2Gbmaj"]
+                | ~s2_keys["s2Gmaj"]
+                | ~s2_keys["s2Amaj"]
+                | ~s2_keys["s2Bmin"]
+                | ~s2_keys["s2Dmaj"]
+                | ~s2_keys["s2Cmaj"]
+                | ~s2_keys["s2Emin"]
+                | ~s2_keys["s2Fmaj"]
+                | ~s2_keys["s2Amin"]
+                | ~s2_keys["s2Bbmin"]
+                | ~s2_keys["s2Gmin"]
+                | ~s2_keys["s2Emaj"]
+                | ~s2_keys["s2Bmaj"]
+                | ~s2_keys["s2Cmin"]
+                | ~s2_keys["s2Dmin"]
+                | ~s2_keys["s2Gbmin"]
+                | ~s2_keys["s2Abmin"]
+                | ~s2_keys["s2Dbmin"]
+                | ~s2_keys["s2Ebmin"]
+                | ~s2_keys["s2Bbmaj"]
+            )
+        )
+    )
 
     return E
 
 
+# function to derive the key and genre compatibility of two songs
 def solve(song1, song2):
     T = example_theory()
-
-    # if abs(song1.bpm - song2.bpm) <= 10:
-    #    T.add_constraint(lt10)
-
-    s1_keys, s2_keys, s1_genres, s2_genres = init_props()
+    # injecting the genres and keys of the two songs into the theory.
     T.add_constraint(s1_genres[s1_genre])
     T.add_constraint(s2_genres[s2_genre])
     T.add_constraint(s1_keys[s1_key])
     T.add_constraint(s2_keys[s2_key])
+
     T = T.compile()
     return T.satisfiable()
 
 
-def loadGenre(genre1, genre2):
+# function which assigns the genres to the global variables
+def load_genre(genre1, genre2):
     global s1_genre, s2_genre
     s1_genre = "s1" + genre1
     s2_genre = "s2" + genre2
-    print(s1_genre, s2_genre)
 
 
+# final comparison to derive the two songs compatiblity relative to its key, genre, and bpm compatibility.
+def determine_compat(song1, song2):
+    gkCompat = solve(song1, song2)
+    bpm1 = int(song1.bpm)
+    bpm2 = int(song2.bpm)
+    # finds ouot whether or not the two songs are within a range of 10 accounting for double and half time
+    BPM_compat = abs(bpm1 - bpm2) <= 10
+    BPM_2times_compat = abs(bpm1 - 2 * bpm2) <= 10 or abs(2 * bpm1 - bpm2) <= 10
+    BPM_half_compat = abs(bpm1 - bpm2 / 2) <= 10 or abs(bpm2 - bpm1 / 2) <= 10
+    # final comparison to ensure all three genre, key, and bpm are compatible.
+    if gkCompat and (BPM_compat or BPM_2times_compat or BPM_half_compat):
+        return True
+    return False
+
+
+# method which loads the keys into the global key variables
 def load_key(key1, key2):
     global s1_key, s2_key
     s1_key = "s1" + key1
     s2_key = "s2" + key2
 
 
+# loads the songs from the json into a list
 def load_songs():
+    # reading the file
     with open("songlib.json", "r") as file:
         jsongs = json.load(file)
 
+    # parsing the info and storing it in a list of objects of type Song
     songs = []
     for i in range(len(jsongs) - 1):
         songs.append(
@@ -1108,48 +1410,43 @@ def load_songs():
     return songs
 
 
-def print_2songs(song1, song2):
-    print(song1.na)
-
-
+# main function to determine compatibility
 def mixingAssist(song1):
+    global E
     count = 0
     compat_count = 0
+    name1 = str(song1.name)
+    # iterating through the songs
     for song2 in songs:
-        loadGenre(song1.genre, song2.genre)
-        load_key(song1.key, song2.key)
-        if solve(song1, song2):
-            print(song1, song2, "are compatible!\n")
-            compat_count += 1
-        if count == len(songs) - 1 & compat_count == 0:
-            print("no songs compat")
 
-    print("Type in the name of the song you would like to play next:")
+        if name1 != song2.name:
+            # loads the keys and genres into global variables
+            load_genre(song1.genre, song2.genre)
+            load_key(song1.key, song2.key)
+            # checks for compatiblity between two songs and prints them accordingly
+            if determine_compat(song1, song2):
+                print(song1, "\n", song2, "\n", "These two songs are compatible!\n")
+                compat_count += 1
+        # statement to check that it is done iterating through the list and there were no compatible songs
+        temp1 = count == len(songs) - 1
+        temp2 = compat_count == 0
+        if temp1 and temp2:
+            print("No songs are compatible")
 
 
 if __name__ == "__main__":
-
-    # T = example_theory()
-    ## Don't compile until you're finished adding all your constraints!
-    # T = T.compile()
-    ## After compilation (and only after), you can check some of the properties
-    ## of your model:
-    # print("\nSatisfiable: %s" % T.satisfiable())
-    # print("# Solutions: %d" % count_solutions(T))
-    # print("   Solution: %s" % T.solve())
-    # print("\nVariable likelihoods:")
-    # for v, vn in zip([a, b, c, x, y, z], "abcxyz"):
-    #    # Ensure that you only send these functions NNF formulas
-    #    # Literals are compiled to NNF here
-    #    print(" %s: %.2f" % (vn, likelihood(T, v)))
-
     print("Welcome to Disc Jockey")
-
+    # declares the songs and initializes a list which takes note of every song that was played by index.
     songs = load_songs()
-    while True:
-        choice = str(input(" Enter the name of the song you want to play first:"))
-        for song in songs:
-            if song.name == choice:
-                mixingAssist(song)
-                break
-        print("song DNE")
+    used_songs = []
+    # while there are more unplayed songs than available
+    while len(used_songs) < len(songs):
+        choice = str(input(" Enter the name of the song you want to play:"))
+
+        for i in range(len(songs)):
+            # checks to make sure that the song that they selected exists and hasnt been played.
+            if (str(songs[i].name) == choice) and (i not in used_songs):
+                used_songs.append(i)
+                mixingAssist(songs[i])
+            elif i in used_songs:
+                print("This song has already been played!")
